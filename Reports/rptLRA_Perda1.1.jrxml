@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptLRA_Perda1.3" pageWidth="936" pageHeight="612" orientation="Landscape" columnWidth="846" leftMargin="70" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f4971dfc-e4a2-46fd-b23a-62fe37bf26eb">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="Kd_Urusan" class="java.lang.String"/>
+	<field name="Kd_Bidang" class="java.lang.String"/>
+	<field name="Kd_Unit" class="java.lang.String"/>
+	<field name="Nm_Urusan" class="java.lang.String"/>
+	<field name="Nm_Bidang" class="java.lang.String"/>
+	<field name="Nm_Unit" class="java.lang.String"/>
+	<field name="Kd_Gab_1" class="java.lang.String"/>
+	<field name="Kd_Gab_2" class="java.lang.String"/>
+	<field name="Kd_Gab_3" class="java.lang.String"/>
+	<field name="Kd_Rek90_1" class="java.lang.Short"/>
+	<field name="Kd_Rek90_2" class="java.lang.Short"/>
+	<field name="Kd_Rek90_3" class="java.lang.Integer"/>
+	<field name="Nm_Rek90_1" class="java.lang.String"/>
+	<field name="Nm_Rek90_2" class="java.lang.String"/>
+	<field name="Nm_Rek90_3" class="java.lang.String"/>
+	<field name="Anggaran" class="java.math.BigDecimal"/>
+	<field name="Realisasi" class="java.math.BigDecimal"/>
+	<field name="Selisih" class="java.math.BigDecimal"/>
+	<variable name="Anggaran1" class="java.math.BigDecimal" resetType="Group" resetGroup="Kd_Rek_2" calculation="Sum">
+		<variableExpression><![CDATA[$F{Anggaran}]]></variableExpression>
+	</variable>
+	<variable name="Realisasi1" class="java.math.BigDecimal" resetType="Group" resetGroup="Kd_Rek_2" calculation="Sum">
+		<variableExpression><![CDATA[$F{Realisasi}]]></variableExpression>
+	</variable>
+	<variable name="Selisih1" class="java.math.BigDecimal" resetType="Group" resetGroup="Kd_Rek_2" calculation="Sum">
+		<variableExpression><![CDATA[$F{Selisih}]]></variableExpression>
+	</variable>
+	<variable name="Variable_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Kd_Unit" incrementType="Group" incrementGroup="Kd_Rek_2" calculation="Sum">
+		<variableExpression><![CDATA[$F{Anggaran}]]></variableExpression>
+	</variable>
+	<group name="Kd_Rek_1">
+		<groupExpression><![CDATA[$F{Kd_Rek90_1}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="0" y="0" width="180" height="20" uuid="a62b7c5c-b4f4-49aa-94eb-da3a4f58d7b6">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Kd_Rek90_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="180" y="0" width="248" height="20" uuid="031d7c54-4d19-4a2f-922d-869eb711ceed">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nm_Rek90_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Kd_Urusan">
+		<groupExpression><![CDATA[$F{Kd_Urusan}]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<textField>
+					<reportElement x="0" y="0" width="180" height="20" uuid="bb8fc00b-69df-40e9-b2ae-dbef24346f49">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Kd_Urusan}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="190" y="0" width="238" height="20" uuid="06109349-2546-4f1c-83a4-856ab6f13987"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nm_Urusan}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Kd_Bidang">
+		<groupExpression><![CDATA[$F{Kd_Bidang}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement x="0" y="0" width="180" height="20" uuid="a7d7851a-c9a5-4454-926f-730dbcb0e6a0">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Kd_Bidang}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="200" y="0" width="228" height="20" uuid="cbfa90b1-cb78-4154-bd48-744dfb1157ce"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nm_Bidang}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Kd_Unit">
+		<groupExpression><![CDATA[$F{Kd_Unit}]]></groupExpression>
+		<groupHeader>
+			<band height="23">
+				<textField>
+					<reportElement x="210" y="0" width="218" height="20" uuid="16996cea-9b01-4a7d-bfae-24b9596792cd"/>
+					<textFieldExpression><![CDATA[$F{Nm_Unit}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="180" height="20" uuid="5fe86d87-5351-4c46-90cb-3d4822dd1d6d">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{Kd_Unit}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Kd_Rek_2">
+		<groupExpression><![CDATA[$F{Kd_Rek90_2}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<textField>
+					<reportElement x="0" y="0" width="180" height="20" uuid="1fed738c-4864-4887-a5d8-d273652b7ffc">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{Kd_Gab_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="220" y="0" width="208" height="20" uuid="c5add24c-c47c-40f4-9296-969496059038"/>
+					<textFieldExpression><![CDATA[$F{Nm_Rek90_2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;(#,##0.00)">
+					<reportElement x="440" y="5" width="100" height="20" uuid="b5055421-d4b9-40f1-9696-a769aca6ac97"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{Variable_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="32">
+				<textField pattern="#,##0.00;(#,##0.00)">
+					<reportElement x="440" y="5" width="100" height="20" uuid="4f02fdc7-65fe-4fe8-976a-5be06901d4a7"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{Variable_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="63" y="0" width="100" height="30" uuid="1ea30217-6f2e-4598-b03a-05ea05064395">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="69561933-416a-4826-80e3-6d383c7ff730"/>
+				</reportElement>
+				<text><![CDATA[Kd_Gab_3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="237" y="0" width="100" height="30" uuid="109cf3c2-0630-4908-9042-4fa67b0abec2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f6bc55b8-0543-4b7c-a648-c51d6df95a81"/>
+				</reportElement>
+				<text><![CDATA[Nm_Rek90_3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="428" y="0" width="100" height="30" uuid="62b4c9db-ad40-4a0f-9d06-2a29b9ab0a3b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d73c9c7a-16c8-4b75-b492-6a98a3f2cb2b"/>
+				</reportElement>
+				<text><![CDATA[Anggaran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="554" y="0" width="100" height="30" uuid="73687715-3aaf-46fa-9ab2-dbae1b809dea">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3be4bd07-8d66-42db-8446-77caf9bddb36"/>
+				</reportElement>
+				<text><![CDATA[Realisasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="661" y="0" width="100" height="30" uuid="62182ecc-51bc-4a62-9179-1a868d6c1261">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="996ae44e-01bb-467b-9f38-35872bc4e59a"/>
+				</reportElement>
+				<text><![CDATA[Selisih]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Immediate">
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="180" height="20" uuid="b1b56c67-fbcb-43cb-9a10-7fe599920b9a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="69561933-416a-4826-80e3-6d383c7ff730"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Kd_Gab_3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="230" y="0" width="198" height="20" uuid="185c7eda-16f1-4b25-9b97-5eb254aa16ad">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f6bc55b8-0543-4b7c-a648-c51d6df95a81"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Nm_Rek90_3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="428" y="0" width="100" height="20" uuid="e52b68cb-3dbe-4846-8deb-dafb099a0c41">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d73c9c7a-16c8-4b75-b492-6a98a3f2cb2b"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Anggaran}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="530" y="0" width="100" height="20" uuid="a6d4dd47-3a19-4817-b0a8-a75aaf78f458">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3be4bd07-8d66-42db-8446-77caf9bddb36"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Realisasi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="630" y="0" width="100" height="20" uuid="82a09b50-8cda-4f8e-9ae3-b83be4c6f88b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="996ae44e-01bb-467b-9f38-35872bc4e59a"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Selisih}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
