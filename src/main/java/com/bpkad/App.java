@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Locale;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 
 import javax.swing.JFrame;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -33,7 +35,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        String connectionString = "jdbc:sqlserver://localhost;username=sa;password=123456;databaseName=tu_2021;encrypt=false;";
+        String connectionString = "jdbc:jtds:sqlserver://localhost/tu_2021;user=sa;password=123456;";
         ResultSet  rs = null; //, rs2 = null;
         try {
             Connection con  = DriverManager.getConnection(connectionString);
@@ -86,13 +88,28 @@ public class App
             //frame.setSize(800, 600);
             frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-            System.console().readLine();
+            //frame.setVisible(true);
 
         } catch (Exception e) {
             System.out.print("Exception:" + e);
         }
 
+        LaporanPerda1_3 lap = new LaporanPerda1_3();
+        lap.initialize();
+        
+        try {
+            rs = Db.getInstance().executeQuery("select nm_unit from ref_unit");
+            while(rs.next()) {
+                System.out.println(rs.getString(1));
+            }
+            lap.exportPerSkpd(currentDir + "/exports");
+        } catch (JRException | SQLException e) {
+            
+            e.printStackTrace();
+        }
+
         System.out.println( "He lorld!!!!" );        
+        System.console().readLine();
+
     }
 }

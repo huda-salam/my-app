@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_Letter_Landscape_1" pageWidth="936" pageHeight="612" orientation="Landscape" columnWidth="880" leftMargin="28" rightMargin="28" topMargin="56" bottomMargin="28" uuid="a3dd7044-c10f-4d1f-b4f0-0e52a0bb2582">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sql_server_2021"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<style name="Style1" isDefault="true" fontName="Arial" fontSize="8">
+		<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Style2" style="Style1" hTextAlign="Right" pattern="#,##0.00#;(#,##0.00#)">
+		<pen lineWidth="1.0" lineStyle="Solid"/>
+		<box>
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Style3" style="Style1" hTextAlign="Right" pattern="#,##0.00#;(#,##0.00#)">
+		<pen lineWidth="1.0" lineStyle="Solid"/>
+		<box>
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="right_money_with_border" style="Style1" hTextAlign="Right" pattern="#,##0.00#;(#,##0.00#)">
+		<pen lineWidth="1.0" lineStyle="Solid"/>
+		<box>
+			<topPen lineWidth="1.0" lineStyle="Dotted" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="mid_no_border">
+		<box>
+			<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[DECLARE @Tahun smallint, @Kd_Urusan varchar(3), @Kd_Bidang varchar(3), @Kd_Unit varchar(3), @Kd_Sub varchar(3), @D1 DATE
+SET @Tahun = 2021
+SET @Kd_Urusan = '1'
+SET @Kd_Bidang  = '1'
+SET @Kd_Unit  = '1'
+SET @Kd_Sub = '1'
+SET @D1 = CAST(CAST(@Tahun as VARCHAR) + '/12/31' as DATE)
+ 
+IF ISNULL(@Kd_Urusan, '') = '' SET @Kd_Urusan = '%' 
+IF ISNULL(@Kd_Bidang, '') = '' SET @Kd_Bidang = '%' 
+IF ISNULL(@Kd_Unit, '') = '' SET @Kd_Unit = '%' 
+IF ISNULL(@Kd_Sub, '') = '' SET @Kd_Sub = '%' 
+ 
+SELECT  u90.Kd_Urusan,
+		u90.Nm_Urusan,
+
+		convert(varchar, u90.kd_Urusan) + '.' + RIGHT('0' + convert(varchar, b90.kd_bidang), 2) AS Kd_Bidang_Gab, 
+		b90.Nm_Bidang,
+		
+		convert(varchar, u90.kd_Urusan) + '.' + RIGHT('0' + convert(varchar, b90.kd_bidang), 2) + ' . ' + u.kd_unit90 AS Kd_Unit_Gab,
+		u.Nm_Unit Nm_Unit_Gab, 
+			
+		CONVERT(varchar, b90.Kd_Urusan) + '.' + RIGHT('0' + CONVERT(varchar, b90.Kd_Bidang), 2) + ' . ' + u.kd_unit90 + ' . ' + CASE WHEN k90.kd_program = 0 THEN 'xx' ELSE RIGHT('0' + CONVERT(varchar, k90.kd_program), 2) END AS Kd_Prog_Gab, 
+		p90.Nm_Program,
+		
+		CONVERT(varchar, b90.Kd_Urusan) + '.' + RIGHT('0' + CONVERT(varchar, b90.Kd_Bidang), 2) + ' . ' + u.kd_unit90 + ' . ' + CASE WHEN k90.kd_program = 0 THEN 'xx' ELSE RIGHT('0' + CONVERT(varchar, k90.kd_program), 2) END + ' . ' + CASE WHEN k90.kd_kegiatan = '0.00' THEN 'x.xx' ELSE k90.kd_kegiatan END AS Kd_Keg_Gab,
+		k90.Nm_Kegiatan,
+		
+		CONVERT(varchar, b90.Kd_Urusan) + '.' + RIGHT('0' + CONVERT(varchar, b90.Kd_Bidang), 2) + ' . ' + u.kd_unit90 + ' . ' + CASE WHEN k90.kd_program = 0 THEN 'xx' ELSE RIGHT('0' + CONVERT(varchar, k90.kd_program), 2) END + ' . ' + CASE WHEN k90.kd_kegiatan = '0.00' THEN 'x.xx' ELSE k90.kd_kegiatan END + ' . ' + CASE WHEN sk90.kd_sub_kegiatan = 0 THEN 'xx' ELSE RIGHT('0' + CONVERT(varchar, sk90.kd_sub_kegiatan), 2) END AS Kd_Sub_Keg_Gab, 
+		sk90.Nm_Sub_Kegiatan,
+		anggaran_51,
+		anggaran_52,
+		anggaran_53,
+		anggaran_54,
+		realisasi_51,
+		realisasi_52,
+		realisasi_53,
+		realisasi_54
+		
+ FROM (       
+		SELECT Tahun, Kd_Urusan, Kd_Bidang, Kd_Unit, Kd_Sub,  
+			Kd_Prog, Id_Prog, Kd_Keg,  			     
+			SUM(CASE WHEN Kd_Rek90_2 = 1 THEN Anggaran ELSE 0 END) anggaran_51, 
+			SUM(CASE WHEN Kd_Rek90_2 = 2 THEN Anggaran ELSE 0 END) anggaran_52, 
+			SUM(CASE WHEN Kd_Rek90_2 = 3 THEN Anggaran ELSE 0 END) anggaran_53, 
+			SUM(CASE WHEN Kd_Rek90_2 = 4 THEN Anggaran ELSE 0 END) anggaran_54, 
+			SUM(CASE WHEN Kd_Rek90_2 = 1 THEN Realisasi ELSE 0 END) realisasi_51, 
+			SUM(CASE WHEN Kd_Rek90_2 = 2 THEN Realisasi ELSE 0 END) realisasi_52, 
+			SUM(CASE WHEN Kd_Rek90_2 = 3 THEN Realisasi ELSE 0 END) realisasi_53, 
+			SUM(CASE WHEN Kd_Rek90_2 = 4 THEN Realisasi ELSE 0 END) realisasi_54			
+		FROM      
+		(  
+			SELECT a.Tahun, a.Kd_Urusan, a.Kd_Bidang, a.Kd_Unit, a.Kd_Sub,  
+				a.Kd_Prog, a.Id_Prog, a.Kd_Keg,  kd_rek90_1, kd_rek90_2,
+				
+				Total Anggaran, 0 Realisasi  
+			FROM Ta_RASK_Arsip a  
+			INNER JOIN Ref_Rek_Mapping b ON a.Kd_Rek_1 = b.Kd_Rek_1 AND a.Kd_Rek_2 = b.Kd_Rek_2 AND a.Kd_Rek_3 = b.Kd_Rek_3 AND a.Kd_Rek_4 = b.Kd_Rek_4 AND a.Kd_Rek_5 = b.Kd_Rek_5  
+			WHERE a.Kd_Perubahan = (SELECT MAX(Kd_Perubahan) FROM Ta_RASK_Arsip_Perubahan WHERE Tgl_Perda <= @D1)  
+			AND a.Tahun = @Tahun AND Kd_Urusan LIKE @Kd_Urusan AND Kd_Bidang LIKE @Kd_Bidang AND Kd_Unit LIKE @Kd_Unit AND Kd_Sub LIKE @Kd_Sub  
+			AND a.kd_rek_1 = 5
+			
+			UNION ALL  
+             
+			SELECT a.Tahun, a.Kd_Urusan, a.Kd_Bidang, a.Kd_Unit, a.Kd_Sub,  
+				b.Kd_Prog, b.Id_Prog, b.Kd_Keg, kd_rek90_1, kd_rek90_2,				
+				0, Debet-Kredit   
+			FROM Ta_JurnalSemuaAk a  
+			INNER JOIN Ta_JurnalSemuaAk_Rinc b ON a.Tahun = b.Tahun AND a.Kd_Source = b.Kd_Source AND a.No_Bukti = b.No_Bukti         
+			WHERE b.Kd_Rek90_1 = 5 
+			AND a.Tgl_Bukti <= @D1  
+			AND ((b.Kd_SKPD = 1 AND a.Posting = 1) OR (b.Kd_SKPD = 2 AND a.Posting_SKPKD = 1))  
+			AND NOT b.Kd_Jurnal IN (8,10)  
+			AND a.Tahun = @Tahun AND Kd_Urusan LIKE @Kd_Urusan AND Kd_Bidang LIKE @Kd_Bidang AND Kd_Unit LIKE @Kd_Unit AND Kd_Sub LIKE @Kd_Sub  
+		) x  
+	WHERE x.Anggaran > 0 OR x.Realisasi <>0  
+	GROUP BY Tahun, Kd_Urusan, Kd_Bidang, Kd_Unit, Kd_Sub,  
+		Kd_Prog, Id_Prog, Kd_Keg
+) a 
+INNER JOIN Ref_Unit             u   ON u.Kd_Urusan = a.Kd_Urusan AND u.Kd_Bidang = a.Kd_Bidang AND u.Kd_Unit = a.Kd_Unit 
+INNER JOIN Ta_Program           p   ON p.Kd_Urusan = a.Kd_Urusan AND p.Kd_Bidang = a.Kd_Bidang AND p.Kd_Unit = a.Kd_Unit AND p.Kd_Sub = a.Kd_Sub AND p.Kd_Prog = a.Kd_Prog AND p.Id_Prog = a.Id_Prog AND p.Tahun = @Tahun
+INNER JOIN Ref_Kegiatan_Mapping map ON map.Kd_Prog = a.Kd_Prog AND map.Kd_Keg = a.Kd_Keg AND map.Kd_Urusan = p.Kd_Urusan1 AND map.Kd_Bidang = p.Kd_Bidang1 
+INNER JOIN Ref_Sub_Kegiatan90   sk90 ON sk90.Kd_Urusan = map.Kd_Urusan90 AND sk90.Kd_Bidang = map.Kd_Bidang90 AND sk90.Kd_Program = map.Kd_Program90 AND sk90.Kd_Kegiatan = map.Kd_Kegiatan90 AND sk90.Kd_Sub_Kegiatan = map.Kd_Sub_Kegiatan 
+INNER JOIN Ref_Kegiatan90       k90 ON k90.Kd_Urusan = sk90.Kd_Urusan AND k90.Kd_Bidang = sk90.Kd_Bidang AND k90.Kd_Program = sk90.Kd_Program AND k90.Kd_Kegiatan = sk90.Kd_Kegiatan 
+INNER JOIN Ref_Program90        p90 ON p90.Kd_Urusan = sk90.Kd_Urusan AND p90.Kd_Bidang = sk90.Kd_Bidang AND p90.Kd_Program = sk90.Kd_Program 
+INNER JOIN ref_bidang_mapping   map_b ON map_b.kd_urusan = a.kd_urusan AND map_b.kd_bidang = a.kd_bidang
+INNER JOIN Ref_Bidang90         b90 ON b90.Kd_Urusan = map_b.kd_urusan90 AND b90.Kd_Bidang = map_b.kd_bidang90 
+INNER JOIN Ref_Urusan90         u90 ON u90.Kd_Urusan = b90.Kd_Urusan 
+
+ORDER BY 
+	Kd_Bidang_Gab, 
+	Kd_Prog_Gab, 
+	Kd_Keg_Gab, 
+	Kd_Sub_Keg_Gab]]>
+	</queryString>
+	<field name="Kd_Urusan" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="Kd_Urusan"/>
+		<property name="com.jaspersoft.studio.field.label" value="Kd_Urusan"/>
+	</field>
+	<field name="Nm_Urusan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nm_Urusan"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nm_Urusan"/>
+	</field>
+	<field name="Kd_Bidang_Gab" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Kd_Bidang_Gab"/>
+		<property name="com.jaspersoft.studio.field.label" value="Kd_Bidang_Gab"/>
+	</field>
+	<field name="Nm_Bidang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nm_Bidang"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nm_Bidang"/>
+	</field>
+	<field name="Kd_Unit_Gab" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Kd_Unit_Gab"/>
+		<property name="com.jaspersoft.studio.field.label" value="Kd_Unit_Gab"/>
+	</field>
+	<field name="Nm_Unit_Gab" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nm_Unit_Gab"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nm_Unit_Gab"/>
+	</field>
+	<field name="Kd_Prog_Gab" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Kd_Prog_Gab"/>
+		<property name="com.jaspersoft.studio.field.label" value="Kd_Prog_Gab"/>
+	</field>
+	<field name="Nm_Program" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nm_Program"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nm_Program"/>
+	</field>
+	<field name="Kd_Keg_Gab" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Kd_Keg_Gab"/>
+		<property name="com.jaspersoft.studio.field.label" value="Kd_Keg_Gab"/>
+	</field>
+	<field name="Nm_Kegiatan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nm_Kegiatan"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nm_Kegiatan"/>
+	</field>
+	<field name="Kd_Sub_Keg_Gab" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Kd_Sub_Keg_Gab"/>
+		<property name="com.jaspersoft.studio.field.label" value="Kd_Sub_Keg_Gab"/>
+	</field>
+	<field name="Nm_Sub_Kegiatan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nm_Sub_Kegiatan"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nm_Sub_Kegiatan"/>
+	</field>
+	<field name="anggaran_51" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="anggaran_51"/>
+		<property name="com.jaspersoft.studio.field.label" value="anggaran_51"/>
+	</field>
+	<field name="anggaran_52" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="anggaran_52"/>
+		<property name="com.jaspersoft.studio.field.label" value="anggaran_52"/>
+	</field>
+	<field name="anggaran_53" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="anggaran_53"/>
+		<property name="com.jaspersoft.studio.field.label" value="anggaran_53"/>
+	</field>
+	<field name="anggaran_54" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="anggaran_54"/>
+		<property name="com.jaspersoft.studio.field.label" value="anggaran_54"/>
+	</field>
+	<field name="realisasi_51" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="realisasi_51"/>
+		<property name="com.jaspersoft.studio.field.label" value="realisasi_51"/>
+	</field>
+	<field name="realisasi_52" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="realisasi_52"/>
+		<property name="com.jaspersoft.studio.field.label" value="realisasi_52"/>
+	</field>
+	<field name="realisasi_53" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="realisasi_53"/>
+		<property name="com.jaspersoft.studio.field.label" value="realisasi_53"/>
+	</field>
+	<field name="realisasi_54" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="realisasi_54"/>
+		<property name="com.jaspersoft.studio.field.label" value="realisasi_54"/>
+	</field>
+	<variable name="anggaran_511" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_51}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_521" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_52}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_531" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_53}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_541" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_54}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_511" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_51}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_521" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_52}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_531" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_53}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_541" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_54}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_512" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_51}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_522" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_52}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_532" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_53}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_542" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_54}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_512" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_51}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_522" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_52}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_532" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_53}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_542" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_54}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_51_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_51}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_52_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_52}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_53_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_53}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_54_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_54}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_51_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_51}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_52_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_52}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_53_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_53}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_54_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_54}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_51_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_51}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_52_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_52}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_53_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_53}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_54_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_54}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_51_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_51}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_52_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_52}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_53_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_53}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_54_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_54}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_51_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_51}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_52_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_52}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_53_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_53}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_54_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran_54}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_51_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_51}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_52_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_52}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_53_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_53}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_54_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$F{realisasi_54}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_t" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{anggaran_51}.add($F{anggaran_52}).add($F{anggaran_53}).add($F{anggaran_54})]]></variableExpression>
+	</variable>
+	<variable name="realisasi_t" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{realisasi_51}.add($F{realisasi_52}).add($F{realisasi_53}).add($F{realisasi_54})]]></variableExpression>
+	</variable>
+	<variable name="prosentase" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{realisasi_t}.multiply(BigDecimal.valueOf(100)).divide($V{anggaran_t},2,BigDecimal.ROUND_HALF_UP)]]></variableExpression>
+	</variable>
+	<variable name="anggaran_t_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$V{anggaran_t}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_t_5" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Kegiatan" calculation="Sum">
+		<variableExpression><![CDATA[$V{realisasi_t}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_t_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$V{anggaran_t}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_t_4" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Program" calculation="Sum">
+		<variableExpression><![CDATA[$V{realisasi_t}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_t_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$V{anggaran_t}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_t_3" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Unit" calculation="Sum">
+		<variableExpression><![CDATA[$V{realisasi_t}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_t_2" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$V{anggaran_t}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_t_2" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Bidang" calculation="Sum">
+		<variableExpression><![CDATA[$V{realisasi_t}]]></variableExpression>
+	</variable>
+	<variable name="anggaran_t_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$V{anggaran_t}]]></variableExpression>
+	</variable>
+	<variable name="realisasi_t_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Group Urusan" calculation="Sum">
+		<variableExpression><![CDATA[$V{realisasi_t}]]></variableExpression>
+	</variable>
+	<variable name="prosentase_1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{realisasi_t_1}.multiply(BigDecimal.valueOf(100)).divide($V{anggaran_t_1},2,BigDecimal.ROUND_HALF_UP)]]></variableExpression>
+	</variable>
+	<variable name="prosentase_2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{realisasi_t_2}.multiply(BigDecimal.valueOf(100)).divide($V{anggaran_t_2},2,BigDecimal.ROUND_HALF_UP)]]></variableExpression>
+	</variable>
+	<variable name="prosentase_3" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{realisasi_t_3}.multiply(BigDecimal.valueOf(100)).divide($V{anggaran_t_3},2,BigDecimal.ROUND_HALF_UP)]]></variableExpression>
+	</variable>
+	<variable name="prosentase_4" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{realisasi_t_4}.multiply(BigDecimal.valueOf(100)).divide($V{anggaran_t_4},2,BigDecimal.ROUND_HALF_UP)]]></variableExpression>
+	</variable>
+	<variable name="prosentase_5" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{realisasi_t_5}.multiply(BigDecimal.valueOf(100)).divide($V{anggaran_t_5},2,BigDecimal.ROUND_HALF_UP)]]></variableExpression>
+	</variable>
+	<variable name="Halaman" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{PAGE_NUMBER}+5]]></variableExpression>
+	</variable>
+	<group name="Group Urusan">
+		<groupExpression><![CDATA[$F{Kd_Urusan}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="Style3" x="380" y="0" width="90" height="20" uuid="245ff937-5b00-4791-b81b-2abb25fe6ed8"/>
+					<textFieldExpression><![CDATA[$V{anggaran_511}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="Style3" x="470" y="0" width="90" height="20" uuid="a18d1ff2-cd9d-47a1-acbb-bf7e58b1ad7e"/>
+					<textFieldExpression><![CDATA[$V{anggaran_521}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="Style3" x="560" y="0" width="90" height="20" uuid="8a6ab0da-d211-4f62-a444-821b29c70779"/>
+					<textFieldExpression><![CDATA[$V{anggaran_531}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="Style3" x="650" y="0" width="90" height="20" uuid="d37aea68-5a14-4a70-a20f-438a012a07f4"/>
+					<textFieldExpression><![CDATA[$V{anggaran_541}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="right_money_with_border" x="380" y="20" width="90" height="20" uuid="eeadd711-f1db-4533-a651-5dc38914a1bd"/>
+					<textFieldExpression><![CDATA[$V{realisasi_511}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="right_money_with_border" x="470" y="20" width="90" height="20" uuid="be13fa6c-069a-4bf5-bd84-b3e94c42f991"/>
+					<textFieldExpression><![CDATA[$V{realisasi_521}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="right_money_with_border" x="560" y="20" width="90" height="20" uuid="51892845-b15d-46d6-9404-1b5590e2fd5a"/>
+					<textFieldExpression><![CDATA[$V{realisasi_531}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="right_money_with_border" x="650" y="20" width="90" height="20" uuid="8b154cf7-bbac-48c7-b2c3-236a11499b81"/>
+					<textFieldExpression><![CDATA[$V{realisasi_541}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="Style3" x="740" y="0" width="90" height="20" uuid="674dfc18-1a68-4441-8ade-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{anggaran_t_1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="right_money_with_border" x="740" y="20" width="90" height="20" uuid="6cecb637-355c-4d45-b00b-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_t_1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Urusan">
+					<reportElement style="Style2" x="830" y="0" width="50" height="40" uuid="318d6dd4-4c07-4101-b801-729a752e398c"/>
+					<textFieldExpression><![CDATA[$V{prosentase_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="160" y="0" width="220" height="40" uuid="6630083c-1893-4adc-8269-9ebd8459c78e"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nm_Urusan}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="10" y="0" width="150" height="40" uuid="eabd0d01-7da9-4060-9df5-008e4ecbff50">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Kd_Urusan}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group Bidang">
+		<groupExpression><![CDATA[$F{Kd_Bidang_Gab}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="Style3" x="380" y="0" width="90" height="20" uuid="32ee688c-8132-4f4d-ab44-5a566dba7131"/>
+					<textFieldExpression><![CDATA[$V{anggaran_512}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="Style3" x="470" y="0" width="90" height="20" uuid="76788fba-cd9b-48d0-a180-452c8b7e512b"/>
+					<textFieldExpression><![CDATA[$V{anggaran_522}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="Style3" x="560" y="0" width="90" height="20" uuid="18e70de8-2763-471e-b4c4-7dea0b8ce994"/>
+					<textFieldExpression><![CDATA[$V{anggaran_532}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="Style3" x="650" y="0" width="90" height="20" uuid="317b333b-6379-45c8-8579-100112c2e3d9"/>
+					<textFieldExpression><![CDATA[$V{anggaran_542}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="right_money_with_border" x="380" y="20" width="90" height="20" uuid="63d9b716-a021-4e9f-95df-8aa76cc3c58b"/>
+					<textFieldExpression><![CDATA[$V{realisasi_512}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="right_money_with_border" x="470" y="20" width="90" height="20" uuid="0cbe5c9a-f7d6-49be-b03f-669ff8ab8cb3"/>
+					<textFieldExpression><![CDATA[$V{realisasi_522}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="right_money_with_border" x="560" y="20" width="90" height="20" uuid="974dcc18-1a68-4441-8adf-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{realisasi_532}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="right_money_with_border" x="650" y="20" width="90" height="20" uuid="2cdcb637-355c-4d45-b00a-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_542}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="Style3" x="740" y="0" width="90" height="20" uuid="574dfc18-1a68-4441-8ade-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{anggaran_t_2}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement style="right_money_with_border" x="740" y="20" width="90" height="20" uuid="5cecb637-355c-4d45-b00b-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_t_2}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Bidang">
+					<reportElement key="" style="Style2" x="830" y="0" width="50" height="40" uuid="318d6dd4-4c07-4101-b802-729a752e398c"/>
+					<textFieldExpression><![CDATA[$V{prosentase_2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="10" y="0" width="150" height="40" uuid="66af90c8-a5fe-48d2-bb04-5807b7837100">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Kd_Bidang_Gab}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="160" y="0" width="220" height="40" uuid="d3d6af38-7401-42df-a6fc-94a35f687dc4">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isBold="true"/>
+						<paragraph leftIndent="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nm_Bidang}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group Unit">
+		<groupExpression><![CDATA[$F{Kd_Unit_Gab}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="Style3" x="380" y="0" width="90" height="20" uuid="32ee688c-8132-4f4d-ab45-5a566dba7131"/>
+					<textFieldExpression><![CDATA[$V{anggaran_51_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="Style3" x="470" y="0" width="90" height="20" uuid="76788fba-cd9b-48d0-a181-452c8b7e512b"/>
+					<textFieldExpression><![CDATA[$V{anggaran_52_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="Style3" x="560" y="0" width="90" height="20" uuid="18e70de8-2763-471e-b4c5-7dea0b8ce994"/>
+					<textFieldExpression><![CDATA[$V{anggaran_53_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="Style3" x="650" y="0" width="90" height="20" uuid="317b333b-6379-45c8-8578-100112c2e3d9"/>
+					<textFieldExpression><![CDATA[$V{anggaran_54_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="right_money_with_border" x="380" y="20" width="90" height="20" uuid="63d9b716-a021-4e9f-95de-8aa76cc3c58b"/>
+					<textFieldExpression><![CDATA[$V{realisasi_51_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="right_money_with_border" x="470" y="20" width="90" height="20" uuid="0cbe5c9a-f7d6-49be-b03e-669ff8ab8cb3"/>
+					<textFieldExpression><![CDATA[$V{realisasi_52_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="right_money_with_border" x="560" y="20" width="90" height="20" uuid="974dcc18-1a68-4441-8ade-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{realisasi_53_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="right_money_with_border" x="650" y="20" width="90" height="20" uuid="2cdcb637-355c-4d45-b00b-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_54_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="Style3" x="740" y="0" width="90" height="20" uuid="474dfc18-1a68-4441-8ade-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{anggaran_t_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement style="right_money_with_border" x="740" y="20" width="90" height="20" uuid="4cecb637-355c-4d45-b00b-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_t_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Unit">
+					<reportElement key="" style="Style2" x="830" y="0" width="50" height="40" uuid="318d6dd4-4c07-4101-b803-729a752e398c"/>
+					<textFieldExpression><![CDATA[$V{prosentase_3}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="160" y="0" width="220" height="40" uuid="8ebc3245-f4ea-4815-b055-08ff345f7803">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isBold="true" isItalic="true"/>
+						<paragraph leftIndent="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nm_Unit_Gab}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="10" y="0" width="150" height="40" uuid="979096f1-c8db-4014-aff6-eedc0394e3f3">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Kd_Unit_Gab}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group Program">
+		<groupExpression><![CDATA[$F{Kd_Prog_Gab}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="Style3" x="380" y="0" width="90" height="20" uuid="12ee688c-8132-4f4d-ab45-5a566dba7131"/>
+					<textFieldExpression><![CDATA[$V{anggaran_51_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="Style3" x="470" y="0" width="90" height="20" uuid="16788fba-cd9b-48d0-a181-452c8b7e512b"/>
+					<textFieldExpression><![CDATA[$V{anggaran_52_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="Style3" x="560" y="0" width="90" height="20" uuid="28e70de8-2763-471e-b4c5-7dea0b8ce994"/>
+					<textFieldExpression><![CDATA[$V{anggaran_53_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="Style3" x="650" y="0" width="90" height="20" uuid="117b333b-6379-45c8-8578-100112c2e3d9"/>
+					<textFieldExpression><![CDATA[$V{anggaran_54_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="right_money_with_border" x="380" y="20" width="90" height="20" uuid="23d9b716-a021-4e9f-95de-8aa76cc3c58b"/>
+					<textFieldExpression><![CDATA[$V{realisasi_51_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="right_money_with_border" x="470" y="20" width="90" height="20" uuid="1cbe5c9a-f7d6-49be-b03e-669ff8ab8cb3"/>
+					<textFieldExpression><![CDATA[$V{realisasi_52_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="right_money_with_border" x="560" y="20" width="90" height="20" uuid="174dcc18-1a68-4441-8ade-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{realisasi_53_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="right_money_with_border" x="650" y="20" width="90" height="20" uuid="1cdcb637-355c-4d45-b00b-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_54_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="Style3" x="740" y="0" width="90" height="20" uuid="374dfc18-1a68-4441-8ade-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{anggaran_t_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement style="right_money_with_border" x="740" y="20" width="90" height="20" uuid="3cecb637-355c-4d45-b00b-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_t_4}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Program">
+					<reportElement key="" style="Style2" x="830" y="0" width="50" height="40" uuid="318d6dd4-4c07-4101-b804-729a752e398c"/>
+					<textFieldExpression><![CDATA[$V{prosentase_4}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="160" y="0" width="220" height="40" uuid="7ee9574c-e9b1-4176-b47e-cf1afdaf2191">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<paragraph leftIndent="24"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nm_Program}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="10" y="0" width="150" height="40" uuid="e81047b6-6209-4645-a53e-8a32eb26b4b1">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Kd_Prog_Gab}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group Kegiatan">
+		<groupExpression><![CDATA[$F{Kd_Keg_Gab}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="Style3" x="380" y="0" width="90" height="20" uuid="22ee688c-8132-4f4d-ab45-5a566dba7131"/>
+					<textFieldExpression><![CDATA[$V{anggaran_51_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="Style3" x="470" y="0" width="90" height="20" uuid="26788fba-cd9b-48d0-a181-452c8b7e512b"/>
+					<textFieldExpression><![CDATA[$V{anggaran_52_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="Style3" x="560" y="0" width="90" height="20" uuid="38e70de8-2763-471e-b4c5-7dea0b8ce994"/>
+					<textFieldExpression><![CDATA[$V{anggaran_53_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="Style3" x="650" y="0" width="90" height="20" uuid="217b333b-6379-45c8-8578-100112c2e3d9"/>
+					<textFieldExpression><![CDATA[$V{anggaran_54_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="right_money_with_border" x="380" y="20" width="90" height="20" uuid="33d9b716-a021-4e9f-95de-8aa76cc3c58b"/>
+					<textFieldExpression><![CDATA[$V{realisasi_51_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="right_money_with_border" x="470" y="20" width="90" height="20" uuid="2cbe5c9a-f7d6-49be-b03e-669ff8ab8cb3"/>
+					<textFieldExpression><![CDATA[$V{realisasi_52_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="right_money_with_border" x="560" y="20" width="90" height="20" uuid="274dcc18-1a68-4441-8ade-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{realisasi_53_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="right_money_with_border" x="650" y="20" width="90" height="20" uuid="2cdcb637-355c-4d45-b00b-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_54_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="Style3" x="740" y="0" width="90" height="20" uuid="274dfc18-1a68-4441-8ade-a5d6694c4563"/>
+					<textFieldExpression><![CDATA[$V{anggaran_t_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement style="right_money_with_border" x="740" y="20" width="90" height="20" uuid="2cecb637-355c-4d45-b00b-d0858a466e30"/>
+					<textFieldExpression><![CDATA[$V{realisasi_t_5}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group Kegiatan">
+					<reportElement key="" style="Style2" x="830" y="0" width="50" height="40" uuid="318d6dd4-4c07-4101-b805-729a752e398c"/>
+					<textFieldExpression><![CDATA[$V{prosentase_5}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="10" y="0" width="150" height="40" uuid="16a81ac6-64a4-4832-aa0c-2afb9d4133e9">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Kd_Keg_Gab}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="160" y="0" width="220" height="40" uuid="320339c7-df1b-4090-ad35-3f69b1fcf5b5">
+						<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isItalic="true"/>
+						<paragraph leftIndent="32"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nm_Kegiatan}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="121">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
+			<frame>
+				<reportElement x="10" y="0" width="870" height="121" uuid="b98c79c2-5872-4791-9223-b488ee06cd03"/>
+			</frame>
+			<textField evaluationTime="Page">
+				<reportElement style="mid_no_border" x="10" y="0" width="870" height="20" uuid="9965ffe3-5251-45b7-8658-e9025265f046"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Halaman}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="42">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}>1]]></printWhenExpression>
+			<textField evaluationTime="Page">
+				<reportElement style="mid_no_border" x="10" y="0" width="870" height="20" uuid="9865ffe3-5251-45b7-8658-e9025265f046"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Halaman}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="0" width="150" height="70" uuid="ce2ebca5-6afa-4269-ad35-d2ac6e3eec56">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="0" width="220" height="70" uuid="1af27ff6-5f88-4c8f-9461-217d63f841f2">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Uraian]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="0" width="450" height="20" uuid="37628aa4-de84-42ae-805e-28a1541308d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Anggaran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="20" width="450" height="20" uuid="814bece8-e4e6-4038-8878-87d5c43a7c56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Realisasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="40" width="90" height="30" uuid="0f16697c-87d9-40b7-9c9f-d23598d230ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Belanja Operasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="40" width="90" height="30" uuid="d36c6a10-537a-490b-acce-4dc50bc7ec37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Belanja Modal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="560" y="40" width="90" height="30" uuid="2679e256-042f-4dcb-9178-008709f92552"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Belanja Tak Terduga]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="650" y="40" width="90" height="30" uuid="199449dd-2072-4b85-a98b-cf6bd84c142f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Belanja Transfer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="740" y="40" width="90" height="30" uuid="7eb8f3e4-4131-469a-b853-39288ecbaf78">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jumlah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="830" y="0" width="50" height="70" uuid="4bf0c677-b46d-41c5-bb4c-1ea6329262f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ (%)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="10" y="0" width="150" height="40" uuid="ccd1e590-3301-47bd-9afe-2ab0761c6244">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="46f72de4-96f9-4894-88d9-143806b1592b"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Kd_Sub_Keg_Gab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="0" width="220" height="40" uuid="9ced985a-72c5-42b4-a9c5-c1124a280cfe">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7cd38e0c-42e7-4db0-85b6-7424abb870a0"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified">
+					<paragraph leftIndent="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Nm_Sub_Kegiatan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style3" x="380" y="0" width="90" height="20" uuid="7cf39467-d6d1-4eab-80d3-55ca7e34f057">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="104408e9-edcb-46ab-9f70-106a6f1f34bd"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{anggaran_51}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style3" x="470" y="0" width="90" height="20" uuid="47af7554-2f72-489d-b742-d2dd7c7dccdf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f763d35b-d7da-455d-acd1-94765a8c58bc"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{anggaran_52}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style3" x="560" y="0" width="90" height="20" uuid="2325e913-689a-4792-aac2-8e0bf114f33c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="efc7dbc7-a42c-4b9b-98fe-d4d0d8fef758"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{anggaran_53}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style3" x="650" y="0" width="90" height="20" uuid="4ac5d646-02c6-4d16-9dd6-3555eb23fb31">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="43466ca1-d7b4-4b64-b740-54d72a329c11"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{anggaran_54}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="right_money_with_border" x="380" y="20" width="90" height="20" uuid="2d88fd16-6af9-40ab-8dea-5010952c9153">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5bb3ea76-ec0d-4e7a-b159-8124e2886ba1"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{realisasi_51}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="right_money_with_border" x="470" y="20" width="90" height="20" uuid="7bb95176-bb30-464d-ba09-b628c46be680">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0fb081f8-2bf0-4b15-9779-a01536e8a0e8"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{realisasi_52}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="right_money_with_border" x="560" y="20" width="90" height="20" uuid="58739cb8-1fcf-4d9b-9c0e-2c8623e5cc06">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="41c4b0ac-c963-439e-a1a1-4f0e0fde1021"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{realisasi_53}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="right_money_with_border" x="650" y="20" width="90" height="20" uuid="94c70e55-7cca-4cb0-a17f-a3810461361d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b001e70d-e372-4298-9790-dc6685290993"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{realisasi_54}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style3" x="740" y="0" width="90" height="20" uuid="3acc30b4-345f-4393-9a13-e19ae4e21e5b"/>
+				<textFieldExpression><![CDATA[$V{anggaran_t}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="right_money_with_border" x="740" y="20" width="90" height="20" uuid="bc00c453-bcfb-4be6-87ab-3f1f24b15e04"/>
+				<textFieldExpression><![CDATA[$V{realisasi_t}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement key="" style="Style2" x="830" y="0" width="50" height="40" uuid="318d6dd4-4c07-4101-b808-729a752e398c"/>
+				<textFieldExpression><![CDATA[$V{prosentase}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="35">
+			<staticText>
+				<reportElement x="10" y="10" width="730" height="20" uuid="bb1b125f-fef1-4f34-9b98-bfe40a4c4c82"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[LAPORAN REALISASI ANGGARAN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="740" y="10" width="100" height="20" uuid="162a16b2-e6a8-4a6d-b782-c2e88d372982">
+					<property name="net.sf.jasperreports.style.box.rightPadding" value="0"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Halaman " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="840" y="10" width="40" height="20" uuid="b69f2409-6b24-44d0-b681-2855b252f1c7">
+					<property name="net.sf.jasperreports.style.box.leftPadding" value="0"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" dari " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
